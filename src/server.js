@@ -5,15 +5,13 @@ const path = require('path');
 const app = express();
 const port = 4010;
 
+app.use(cors());
+
 app.get('/todos', (req, res) => {
 	fs.readFile('./src/database/todos.json', 'utf8', (err, data) => {
 		res.setHeader('Content-Type', 'application/json');
 		res.send(data);
 	});
-	res.setHeader('Access-Control-Allow-Origin', '*');
-	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-	res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-	res.setHeader('Access-Control-Allow-Credentials', true);
 });
 
 app.get('/todos/:id', (req, res) => {
