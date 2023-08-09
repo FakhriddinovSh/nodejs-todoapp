@@ -6,14 +6,29 @@ const app = express();
 const port = 4010;
 
 app.get('/todos', (req, res) => {
+	// fs.readFile('./src/database/todos.json', 'utf8', (err, data) => {
+	// 	res.setHeader('Content-Type', 'application/json');
+	// 	res.send(data);
+	// });
+	// res.setHeader('Access-Control-Allow-Origin', '*');
+	// res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+	// res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+	// res.setHeader('Access-Control-Allow-Credentials', true);
 	fs.readFile('./src/database/todos.json', 'utf8', (err, data) => {
+		if (err) {
+			// Handle the error and send an appropriate response
+			res.status(500).send('Error reading todos data');
+			return;
+		}
+
 		res.setHeader('Content-Type', 'application/json');
+		res.setHeader('Access-Control-Allow-Origin', '*');
+		res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+		res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+		res.setHeader('Access-Control-Allow-Credentials', true);
+
 		res.send(data);
 	});
-	res.setHeader('Access-Control-Allow-Origin', '*');
-	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-	res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-	res.setHeader('Access-Control-Allow-Credentials', true);
 });
 
 app.get('/todos/:id', (req, res) => {
